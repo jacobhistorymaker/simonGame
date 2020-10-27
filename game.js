@@ -75,7 +75,6 @@ function animatePress(currentColour) {
 function checkAnswer(currentLevel) {
   // console.log("I am checking: " + userClickedPattern[currentLevel] + " at position: " + currentLevel);
   if (userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
-    console.log("success");
     // Check that the user have finished their sequence, and
     if (currentLevel === gamePattern.length - 1) {
       setTimeout(function() {
@@ -83,8 +82,11 @@ function checkAnswer(currentLevel) {
       }, 1000);
     }
   } else {
-    console.log("wrong");
     playSound("wrong");
+    $("body").addClass("game-over");
+    setTimeout(function(){
+      $("body").removeClass("game-over");
+    }, 200);
     // Only the first time the user makes a mistake tell him to refresh
     if (!gameOver) {
       // Update the h1 to current level

@@ -17,15 +17,7 @@ $(document).on("keypress", function(event) {
   }
   // Check if gave is over and restart the game
   if (gameOver) {
-    gamePattern = [];
-    userClickedPattern = [];
-    level = 0;
-    gameOver = false;
-    $("#restart").hide();
-    setTimeout(function() {
-      nextSequence();
-    }, 1000);
-
+    startOver();
   }
   started = true;
 });
@@ -107,4 +99,16 @@ function checkAnswer(currentLevel) {
       gameOver = true;
     }
   }
+}
+
+// Function that restarts the game
+function startOver() {
+  gamePattern = [];
+  userClickedPattern = [];
+  level = 0;
+  gameOver = false;
+  $("#restart").hide();
+  setTimeout(function() {
+    nextSequence();
+  }, 1000);
 }

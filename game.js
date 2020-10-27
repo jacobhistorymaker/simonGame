@@ -22,4 +22,8 @@ function nextSequence(){
 
   // Store the randomChosenColour to the sequence of colors
   gamePattern.push(randomChosenColour);
+
+  // Animate a flash on computer's selection
+  $("#" + randomChosenColour).fadeOut(100).fadeIn(100);
+
 }

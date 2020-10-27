@@ -1,4 +1,3 @@
-
 // The four colour options
 var buttonColours = ["red", "blue", "green", "yellow"];
 // Variable storing random color selections, a pattern for the user to follow
@@ -7,13 +6,13 @@ var gamePattern = [];
 var userClickedPattern = [];
 // Variable to show user's level
 var level = 0;
-
-
+// Variable showing if game is over or not
+var gameOver = false;
 
 // Detect keypress event from keyboard, for the game to start
 $(document).on("keypress", function(event) {
   // Call nextSequence function only on the first keypress event
-  if (level===0) {
+  if (level === 0) {
     nextSequence();
   }
   started = true;
@@ -27,10 +26,16 @@ $(".btn").on("click", function(event) {
   playSound(userChosenColour);
   animatePress(userChosenColour);
   userClickedPattern.push(userChosenColour);
+
+  checkAnswer(userClickedPattern.length - 1);
 });
 
 // Random generated color selection from the game
-function nextSequence(){
+function nextSequence() {
+
+  // Reset the userClickedPattern, make it ready for the next level
+  userClickedPattern = [];
+
   // Create a random number between 0-3
   var randomNumber = Math.floor(Math.random() * 4);
 
@@ -63,4 +68,29 @@ function animatePress(currentColour) {
   setTimeout(function() {
     $("#" + currentColour).removeClass("pressed");
   }, 100);
+}
+
+
+// Function that checks user's answers
+function checkAnswer(currentLevel) {
+  // console.log("I am checking: " + userClickedPattern[currentLevel] + " at position: " + currentLevel);
+  if (userClickedPattern[currentLevel] === gamePattern[currentLevel]) {
+    console.log("success");
+    // Check that the user have finished their sequence, and
+    if (currentLevel === gamePattern.length - 1) {
+      setTimeout(function() {
+        nextSequence();
+      }, 1000);
+    }
+  } else {
+    console.log("wrong");
+    playSound("wrong");
+    // Only the first time the user makes a mistake tell him to refresh
+    if (!gameOver) {
+      // Update the h1 to current level
+      $("#level-title").text("Game Over!");
+      $("#level-title").after("<h3 id='restart'>Refresh to play again.</h3>");
+      gameOver = true;
+    }
+  }
 }

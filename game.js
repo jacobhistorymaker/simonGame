@@ -5,16 +5,15 @@ var buttonColours = ["red", "blue", "green", "yellow"];
 var gamePattern = [];
 // Variable which stores user's choices
 var userClickedPattern = [];
-// Boolean variable that shows if the game started or not
-var started = false;
-
+// Variable to show user's level
+var level = 0;
 
 
 
 // Detect keypress event from keyboard, for the game to start
 $(document).on("keypress", function(event) {
   // Call nextSequence function only on the first keypress event
-  if (!started) {
+  if (level===0) {
     nextSequence();
   }
   started = true;
@@ -38,13 +37,17 @@ function nextSequence(){
   // Random selected colour
   var randomChosenColour = buttonColours[randomNumber];
 
-  // Store the randomChosenColour to the sequence of colors
-  gamePattern.push(randomChosenColour);
-
   // Animate a flash on computer's selection
   $("#" + randomChosenColour).fadeOut(100).fadeIn(100);
   // Play equivalent sound for user's selection
   playSound(randomChosenColour);
+
+  // Store the randomChosenColour to the sequence of colors
+  gamePattern.push(randomChosenColour);
+
+  level++;
+  // Update the h1 to current level
+  $("#level-title").text("Level " + level);
 }
 
 

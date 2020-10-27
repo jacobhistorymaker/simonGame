@@ -12,8 +12,20 @@ var gameOver = false;
 // Detect keypress event from keyboard, for the game to start
 $(document).on("keypress", function(event) {
   // Call nextSequence function only on the first keypress event
-  if (level === 0) {
+  if (!gameOver && level === 0) {
     nextSequence();
+  }
+  // Check if gave is over and restart the game
+  if (gameOver) {
+    gamePattern = [];
+    userClickedPattern = [];
+    level = 0;
+    gameOver = false;
+    $("#restart").hide();
+    setTimeout(function() {
+      nextSequence();
+    }, 1000);
+
   }
   started = true;
 });
@@ -84,14 +96,14 @@ function checkAnswer(currentLevel) {
   } else {
     playSound("wrong");
     $("body").addClass("game-over");
-    setTimeout(function(){
+    setTimeout(function() {
       $("body").removeClass("game-over");
     }, 200);
     // Only the first time the user makes a mistake tell him to refresh
     if (!gameOver) {
       // Update the h1 to current level
       $("#level-title").text("Game Over!");
-      $("#level-title").after("<h3 id='restart'>Refresh to play again.</h3>");
+      $("#level-title").after("<h3 id='restart'>Press any key to start again.</h3>");
       gameOver = true;
     }
   }
